@@ -1,5 +1,7 @@
 package;
 
+import openfl.text.TextField;
+import openfl.text.TextFormat;
 #if android
 import android.content.Context;
 #end
@@ -55,6 +57,7 @@ class Main extends Sprite
 	};
 
 	public static var fpsVar:FPSCounter;
+	public static var watermark:TextField;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -135,6 +138,14 @@ class Main extends Sprite
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 		#end
+
+		watermark = new TextField();
+		watermark.defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 12, 0xFFFFFF);
+		watermark.selectable = false;
+		watermark.mouseEnabled = false;
+		watermark.autoSize = RIGHT;
+		watermark.text = "Dev Build " + BuildInfo.getBuildDate() + " KST - bpforest";
+		addChild(watermark);
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
