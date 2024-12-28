@@ -14,6 +14,7 @@ import flixel.FlxState;
 import haxe.io.Path;
 import openfl.Assets;
 import openfl.Lib;
+import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
@@ -56,6 +57,7 @@ class Main extends Sprite
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
+	public var bg:Shape;
 	public static var fpsVar:FPSCounter;
 	public static var watermark:TextField;
 
@@ -130,7 +132,16 @@ class Main extends Sprite
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		#if !mobile
-		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
+		bg = new Shape();
+		addChild(bg);
+
+		fpsVar = new FPSCounter(6, 6, 0xFFFFFF);
+		fpsVar.callback = () -> {
+			bg.graphics.clear();
+			bg.graphics.beginFill(0x000000, 0.25);
+			bg.graphics.drawRect(0, 0, fpsVar.width + 12, fpsVar.height + 12);
+			bg.graphics.endFill();
+		}
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -139,6 +150,10 @@ class Main extends Sprite
 		}
 		#end
 
+		#if DEV
+		var wmBG:Shape = new Shape();
+		addChild(wmBG);
+
 		watermark = new TextField();
 		watermark.defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 12, 0xFFFFFF);
 		watermark.selectable = false;
@@ -146,6 +161,7 @@ class Main extends Sprite
 		watermark.autoSize = RIGHT;
 		watermark.text = "Dev Build " + BuildInfo.getBuildDate() + " KST - bpforest";
 		addChild(watermark);
+		#end
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
@@ -171,21 +187,25 @@ class Main extends Sprite
 
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {
-		     if (FlxG.cameras != null) {
-			   for (cam in FlxG.cameras.list) {
-				if (cam != null && cam.filters != null)
-					resetSpriteCache(cam.flashSprite);
-			   }
-			}
+			watermark.x = w - watermark.width - 6;
+			watermark.y = h - watermark.height - 6;
+			wmBG.graphics.clear();
+			wmBG.graphics.beginFill(0x000000, 0.25);
+			wmBG.graphics.drawRect(w - watermark.width - 12, h - watermark.height - 12, w, h);
+			wmBG.graphics.endFill();
+			if (FlxG.cameras != null)
+				for (cam in FlxG.cameras.list)
+					if (cam != null && cam.filters != null)
+						resetSpriteCache(cam.flashSprite);
 
 			if (FlxG.game != null)
-			resetSpriteCache(FlxG.game);
+				resetSpriteCache(FlxG.game);
 		});
 	}
 
 	static function resetSpriteCache(sprite:Sprite):Void {
 		@:privateAccess {
-		        sprite.__cacheBitmap = null;
+			sprite.__cacheBitmap = null;
 			sprite.__cacheBitmapData = null;
 		}
 	}

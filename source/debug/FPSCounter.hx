@@ -20,6 +20,7 @@ class FPSCounter extends TextField
 		The current memory usage (WARNING: this is NOT your total program memory usage, rather it shows the garbage collector memory)
 	**/
 	public var memoryMegas(get, never):Float;
+	public var callback:Void -> Void;
 
 	@:noCompletion private var times:Array<Float>;
 
@@ -67,6 +68,7 @@ class FPSCounter extends TextField
 		textColor = 0xFFFFFFFF;
 		if (currentFPS < FlxG.drawFramerate * 0.5)
 			textColor = 0xFFFF7E7E;
+		callback();
 	}
 
 	inline function get_memoryMegas():Float

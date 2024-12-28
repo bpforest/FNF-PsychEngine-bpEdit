@@ -14,8 +14,8 @@ class FlashingState extends MusicBeatState
 	{
 		super.create();
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		add(bg);
+		// var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		// add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Hey, watch out!\n
@@ -25,7 +25,7 @@ class FlashingState extends MusicBeatState
 			You've been warned!",
 			32);
 		warnText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
-		warnText.screenCenter(Y);
+		warnText.screenCenter();
 		add(warnText);
 	}
 
