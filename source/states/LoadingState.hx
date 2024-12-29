@@ -239,7 +239,9 @@ class LoadingState extends MusicBeatState
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		#if NO_RENDER_WHILE_LOADING
 		FlxG.camera.visible = false;
+		#end
 		FlxTransitionableState.skipNextTransIn = true;
 		MusicBeatState.switchState(target);
 		transitioning = true;

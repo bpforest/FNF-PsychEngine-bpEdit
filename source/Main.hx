@@ -17,7 +17,9 @@ import openfl.Lib;
 import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import openfl.events.KeyboardEvent;
 import openfl.display.StageScaleMode;
+import openfl.display.StageDisplayState;
 import lime.app.Application;
 import states.TitleState;
 
@@ -150,7 +152,7 @@ class Main extends Sprite
 		}
 		#end
 
-		#if DEV
+		#if debug
 		var wmBG:Shape = new Shape();
 		addChild(wmBG);
 
@@ -185,14 +187,26 @@ class Main extends Sprite
 		DiscordClient.prepare();
 		#end
 
+		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent) {
+			if (e.keyCode == 122) {
+				if (Lib.current.stage.displayState == StageDisplayState.NORMAL) {
+					Lib.current.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				} else {
+					Lib.current.stage.displayState = StageDisplayState.NORMAL;
+				}
+			}
+		});
+
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {
+			#if debug
 			watermark.x = w - watermark.width - 6;
 			watermark.y = h - watermark.height - 6;
 			wmBG.graphics.clear();
 			wmBG.graphics.beginFill(0x000000, 0.25);
 			wmBG.graphics.drawRect(w - watermark.width - 12, h - watermark.height - 12, w, h);
 			wmBG.graphics.endFill();
+			#end
 			if (FlxG.cameras != null)
 				for (cam in FlxG.cameras.list)
 					if (cam != null && cam.filters != null)

@@ -106,9 +106,10 @@ class DiscordClient
 
 		presence.state = state;
 		presence.details = details;
-		presence.smallImageKey = smallImageKey;
-		presence.largeImageKey = largeImageKey;
-		presence.largeImageText = "Engine Version: " + states.MainMenuState.psychEngineVersion;
+		presence.smallImageKey = largeImageKey;
+		presence.smallImageText = Application.current.meta.get('version');
+		presence.largeImageKey = smallImageKey;
+		presence.largeImageText = smallImageKey;
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
@@ -171,6 +172,7 @@ private final class DiscordPresence
 	public var state(get, set):String;
 	public var details(get, set):String;
 	public var smallImageKey(get, set):String;
+	public var smallImageText(get, set):String;
 	public var largeImageKey(get, set):String;
 	public var largeImageText(get, set):String;
 	public var startTimestamp(get, set):Int;
@@ -224,6 +226,16 @@ private final class DiscordPresence
 	@:noCompletion inline function set_smallImageKey(value:String):String
 	{
 		return __presence.smallImageKey = value;
+	}
+
+	@:noCompletion inline function get_smallImageText():String
+	{
+		return __presence.smallImageText;
+	}
+
+	@:noCompletion inline function set_smallImageText(value:String):String
+	{
+		return __presence.smallImageText = value;
 	}
 
 	@:noCompletion inline function get_largeImageKey():String
