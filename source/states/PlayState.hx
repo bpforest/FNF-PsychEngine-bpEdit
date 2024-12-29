@@ -982,7 +982,8 @@ class PlayState extends MusicBeatState
 			}
 			else if (skipCountdown)
 			{
-				setSongTime(0);
+				Conductor.songPosition = -200;
+				// setSongTime(0);
 				return true;
 			}
 			moveCameraSection();
