@@ -118,6 +118,8 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 
+		// FlxG.log.redirectTraces = true;
+
 		#if LUA_ALLOWED
 		Mods.pushGlobalMods();
 		#end
