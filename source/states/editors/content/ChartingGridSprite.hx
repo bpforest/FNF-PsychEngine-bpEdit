@@ -26,16 +26,19 @@ class ChartingGridSprite extends FlxSprite
 		loadGrid(color1, color2);
 		updateHitbox();
 		recalcHeight();
+		antialiasing = false;
 
 		vortexLine = new FlxSprite().makeGraphic(1, 1, FlxColor.WHITE);
 		vortexLine.scale.x = this.width;
 		vortexLine.scrollFactor.x = 0;
 		vortexLine.color = 0xFF660000;
 		vortexLine.updateHitbox();
+		vortexLine.antialiasing = false;
 
 		stripe = new FlxSprite().makeGraphic(1, 1, FlxColor.WHITE);
 		stripe.scrollFactor.x = 0;
 		stripe.color = FlxColor.BLACK;
+		stripe.antialiasing = false;
 		updateStripes();
 	}
 

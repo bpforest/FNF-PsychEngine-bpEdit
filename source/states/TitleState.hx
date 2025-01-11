@@ -75,6 +75,8 @@ class TitleState extends MusicBeatState
 		super.create();
 		Paths.clearUnusedMemory();
 
+		FlxSprite.defaultAntialiasing = ClientPrefs.data.antialiasing;
+
 		if(!initialized)
 		{
 			ClientPrefs.loadPrefs();
